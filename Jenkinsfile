@@ -23,6 +23,7 @@ pipeline {
                 sh 'npm run build'
                 sh 'ls -la' // List files to see what was created
                 sh 'pwd'    // Show current directory
+                sh 'ls -la ./dist' // Explicitly list dist directory contents
             }
         }
         
@@ -34,9 +35,8 @@ pipeline {
                     sh 'pwd'
                     sh 'ls -la'
                     
-                    // Find the build directory (adjust if needed)
-                    def buildDir = sh(script: 'find ./dist -type d | head -n 1', returnStdout: true).trim()
-
+                    // Use the dist directory directly
+                    def buildDir = './dist'
                     
                     if (buildDir) {
                         echo "Found build directory: ${buildDir}"
