@@ -34,7 +34,7 @@ pipeline {
                     sh 'pwd'
                     sh 'ls -la'
                     
-                    // Determine the build directory (adjust if needed)
+                    // Find the build directory (adjust if needed)
                     def buildDir = sh(script: 'find . -type d -name "build" -o -name "dist" -o -name "public" | head -1', returnStdout: true).trim()
                     
                     if (buildDir) {
@@ -42,6 +42,13 @@ pipeline {
                         
                         // Debug: Check build directory contents
                         sh "ls -la ${buildDir}"
+                        
+                        // Ensure the build directory exists and has files
+                        if (fileExists("${buildDir}/index.html")) {
+                            echo "Build directory contains index.html"
+                        } else {
+                            error "index.html is missing from build directory. Deployment aborted."
+                        }
                         
                         sshagent(['ec2-ssh-key-hotel']) {
                             // Create a tar file of the build
