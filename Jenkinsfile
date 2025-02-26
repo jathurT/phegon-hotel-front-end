@@ -35,7 +35,7 @@ pipeline {
                     sh 'ls -la'
                     
                     // Find the build directory (adjust if needed)
-                    def buildDir = sh(script: 'find . -type d -name "build" -o -name "dist" -o -name "public" | head -1', returnStdout: true).trim()
+                     def buildDir = sh(script: 'find . -type d -name "dist" | head -1', returnStdout: true).trim()
                     
                     if (buildDir) {
                         echo "Found build directory: ${buildDir}"
