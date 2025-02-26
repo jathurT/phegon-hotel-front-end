@@ -1,5 +1,9 @@
 pipeline {
     agent any
+
+    tools {
+        nodejs 'Node.js 20.9.0'
+    }
     
     environment {
         EC2_USER = 'ubuntu'
