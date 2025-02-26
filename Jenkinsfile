@@ -29,6 +29,7 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
+                // Use npm install instead of npm ci to resolve version conflicts
                 sh 'npm install'
             }
         }
