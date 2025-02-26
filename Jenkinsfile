@@ -29,7 +29,9 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
-                    // Check if build directory exists and what it contains
+                    // Debug: Check current directory contents
+                    echo "Current working directory:"
+                    sh 'pwd'
                     sh 'ls -la'
                     
                     // Determine the build directory (adjust if needed)
@@ -38,18 +40,28 @@ pipeline {
                     if (buildDir) {
                         echo "Found build directory: ${buildDir}"
                         
+                        // Debug: Check build directory contents
+                        sh "ls -la ${buildDir}"
+                        
                         sshagent(['ec2-ssh-key-hotel']) {
                             // Create a tar file of the build
+                            echo "Creating tar archive from: ${buildDir}"
                             sh "tar -czf build.tar.gz -C ${buildDir} ."
                             
+                            // Verify tar was created
+                            sh "ls -la build.tar.gz"
+                            
                             // Copy it to the EC2 instance
+                            echo "Copying tar to EC2 instance"
                             sh "scp -o StrictHostKeyChecking=no build.tar.gz ${EC2_USER}@${EC2_HOST}:/tmp/"
                             
                             // Extract and deploy on EC2
+                            echo "Extracting and deploying on EC2"
                             sh """
                                 ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_HOST} '
                                     sudo rm -rf /var/www/your-frontend-app/*
-                                    tar -xzf /tmp/build.tar.gz -C /var/www/your-frontend-app/
+                                    sudo mkdir -p /var/www/your-frontend-app
+                                    sudo tar -xzf /tmp/build.tar.gz -C /var/www/your-frontend-app/
                                     rm /tmp/build.tar.gz
                                     sudo systemctl reload nginx
                                 '
@@ -60,6 +72,15 @@ pipeline {
                     }
                 }
             }
+        }
+    }
+    
+    post {
+        failure {
+            echo 'The pipeline failed. Check the build logs for details.'
+        }
+        success {
+            echo 'Successfully built and deployed the application.'
         }
     }
 }
