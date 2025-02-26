@@ -14,6 +14,14 @@ pipeline {
         }
         
         stage('Build') {
+            
+            agent {
+                docker {
+                    image 'node:16'
+                    reuseNode true
+                }
+            }
+
             steps {
                 sh 'npm install'
                 sh 'npm run build'
