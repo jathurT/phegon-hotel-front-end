@@ -30,11 +30,6 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
-                    // Debug: Check current directory contents
-                    echo "Current working directory:"
-                    sh 'pwd'
-                    sh 'ls -la'
-                    
                     // Use the dist directory directly
                     def buildDir = './dist'
                     
