@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     tools {
-        nodejs 'Node.js 20'
+        nodejs 'Node.js 20.9.0'  // Updated to a compatible Node.js version
     }
 
     parameters {
@@ -29,7 +29,7 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                sh 'npm ci'
+                sh 'npm install'
             }
         }
 
