@@ -62,9 +62,9 @@ pipeline {
                             echo "Extracting and deploying on EC2"
                             sh """
                                 ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_HOST} '
-                                    sudo rm -rf /var/www/your-frontend-app/*
-                                    sudo mkdir -p /var/www/your-frontend-app
-                                    sudo tar -xzf /tmp/build.tar.gz -C /var/www/your-frontend-app/
+                                    sudo rm -rf /var/www/frontends/*
+                                    sudo mkdir -p /var/www/frontends
+                                    sudo tar -xzf /tmp/build.tar.gz -C /var/www/frontends/
                                     rm /tmp/build.tar.gz
                                     sudo systemctl reload nginx
                                 '
