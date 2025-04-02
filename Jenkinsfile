@@ -46,7 +46,7 @@ pipeline {
                             error "index.html is missing from build directory. Deployment aborted."
                         }
                         
-                        sshagent(['ec2-ssh-key-hotel']) {
+                        sshagent(['ec2-ssh-key']) {
                             // Create a tar file of the build
                             echo "Creating tar archive from: ${buildDir}"
                             sh "tar -czf build.tar.gz -C ${buildDir} ."
