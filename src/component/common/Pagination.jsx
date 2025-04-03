@@ -8,19 +8,25 @@ const Pagination = ({ roomsPerPage, totalRooms, currentPage, paginate }) => {
   }
 
   return (
-    <div className='pagination-nav'>
-      <ul className="pagination-ul">
+    <nav className="flex justify-center mt-8">
+      <ul className="flex space-x-2">
         {pageNumbers.map((number) => (
-          <li key={number} className="pagination-li">
-            <button onClick={() => paginate(number)} className={`pagination-button ${currentPage === number ? 'current-page' : ''}`}>
+          <li key={number}>
+            <button
+              onClick={() => paginate(number)}
+              className={`px-3 py-1 rounded-md ${
+                currentPage === number
+                  ? 'bg-teal-600 text-white'
+                  : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50'
+              }`}
+            >
               {number}
             </button>
           </li>
         ))}
       </ul>
-    </div>
+    </nav>
   );
 };
 
 export default Pagination;
-
