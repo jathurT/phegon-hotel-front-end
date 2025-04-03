@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export default class ApiService {
-  static BASE_URL = "http://3.111.32.85/api";
+  static BASE_URL = "http://3.111.57.32/api";
 
   static getHeader() {
     const token = localStorage.getItem("token");
